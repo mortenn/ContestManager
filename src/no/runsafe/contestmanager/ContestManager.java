@@ -1,26 +1,44 @@
 package no.runsafe.contestmanager;
 
+import no.runsafe.contestmanager.command.AddContestant;
+import no.runsafe.contestmanager.command.AddWorld;
+import no.runsafe.contestmanager.command.RemoveContestant;
+import no.runsafe.contestmanager.command.RemoveWorld;
+import no.runsafe.contestmanager.database.ContestantRepository;
+import no.runsafe.contestmanager.database.EntryRepository;
 import no.runsafe.framework.RunsafePlugin;
+import no.runsafe.framework.api.command.Command;
+import no.runsafe.framework.features.Commands;
+import no.runsafe.framework.features.Database;
+import no.runsafe.framework.features.Events;
 
 public class ContestManager extends RunsafePlugin
-//public class ContestManager extends RunsafeConfigurablePlugin
 {
-//	public static IDebug Debugger = null;
-
 	@Override
 	protected void pluginSetup()
 	{
-//		Debugger = getComponent(IDebug.class);
-
 		// Framework features
-//		addComponent(Commands.class);
-//		addComponent(Database.class);
-//		addComponent(Events.class);
-//		addComponent(FrameworkHooks.class);
-//		addComponent(LUAScripts.class);
-//		addComponent(UniverseRegistration.class);
+		addComponent(Commands.class);
+		addComponent(Database.class);
+		addComponent(Events.class);
 
 		// Plugin components
-//		addComponent(SomeComponent.class);
+		addComponent(ContestantRepository.class);
+		addComponent(EntryRepository.class);
+
+		// Commands
+		Command contest = new Command("contest", "Creative contest management tools", null);
+
+		Command entry = new Command("entry", "Manage contest entries", null);
+		entry.addSubCommand(getInstance(AddWorld.class));
+		entry.addSubCommand(getInstance(RemoveWorld.class));
+		contest.addSubCommand(entry);
+
+		Command contestant = new Command("contestant", "Manage contestants", null);
+		contestant.addSubCommand(getInstance(AddContestant.class));
+		contestant.addSubCommand(getInstance(RemoveContestant.class));
+		contest.addSubCommand(contestant);
+
+		addComponent(contest);
 	}
 }
