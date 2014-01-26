@@ -9,7 +9,7 @@ import no.runsafe.framework.api.command.argument.WorldArgument;
 
 public class AddWorld extends AsyncCommand
 {
-	protected AddWorld(IScheduler scheduler, EntryRepository entries)
+	public AddWorld(IScheduler scheduler, EntryRepository entries)
 	{
 		super("add", "Adds a world to the contest", "contest.add", scheduler, new WorldArgument(true));
 		this.entries = entries;

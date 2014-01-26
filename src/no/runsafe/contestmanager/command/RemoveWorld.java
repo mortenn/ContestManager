@@ -9,7 +9,7 @@ import no.runsafe.framework.api.command.argument.WorldArgument;
 
 public class RemoveWorld extends AsyncCommand
 {
-	protected RemoveWorld(IScheduler scheduler, EntryRepository entries)
+	public RemoveWorld(IScheduler scheduler, EntryRepository entries)
 	{
 		super("remove", "Removes a world from the contest.", "contest.remove", scheduler, new WorldArgument(true));
 		this.entries = entries;

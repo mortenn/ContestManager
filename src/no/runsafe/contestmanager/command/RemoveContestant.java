@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RemoveContestant extends AsyncCommand
 {
-	protected RemoveContestant(IScheduler scheduler, ContestantRepository contestants)
+	public RemoveContestant(IScheduler scheduler, ContestantRepository contestants)
 	{
 		super("remove", "Remove a contestant from their entry", "contestant.remove", scheduler, new PlayerListArgument(true));
 		this.contestants = contestants;

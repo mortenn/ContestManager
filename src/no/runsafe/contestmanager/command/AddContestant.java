@@ -13,7 +13,7 @@ import java.util.List;
 
 public class AddContestant extends AsyncCommand
 {
-	protected AddContestant(IScheduler scheduler, ContestantRepository contestants)
+	public AddContestant(IScheduler scheduler, ContestantRepository contestants)
 	{
 		super("add", "Add a contestant to an entry", "contestant.add", scheduler, new WorldArgument(true), new PlayerListArgument(true));
 		this.contestants = contestants;
