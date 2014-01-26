@@ -6,6 +6,7 @@ import no.runsafe.contestmanager.command.RemoveContestant;
 import no.runsafe.contestmanager.command.RemoveWorld;
 import no.runsafe.contestmanager.database.ContestantRepository;
 import no.runsafe.contestmanager.database.EntryRepository;
+import no.runsafe.contestmanager.event.PlayerEvents;
 import no.runsafe.framework.RunsafePlugin;
 import no.runsafe.framework.api.command.Command;
 import no.runsafe.framework.features.Commands;
@@ -25,6 +26,9 @@ public class ContestManager extends RunsafePlugin
 		// Plugin components
 		addComponent(ContestantRepository.class);
 		addComponent(EntryRepository.class);
+
+		// Event handlers
+		addComponent(PlayerEvents.class);
 
 		// Commands
 		Command contest = new Command("contest", "Creative contest management tools", null);

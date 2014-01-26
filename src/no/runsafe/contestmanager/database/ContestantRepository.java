@@ -1,5 +1,6 @@
 package no.runsafe.contestmanager.database;
 
+import no.runsafe.framework.api.IWorld;
 import no.runsafe.framework.api.database.ISchemaUpdate;
 import no.runsafe.framework.api.database.Repository;
 import no.runsafe.framework.api.database.SchemaUpdate;
@@ -17,6 +18,11 @@ public class ContestantRepository extends Repository
 	public List<String> getWorldMemberNames(String world)
 	{
 		return database.queryStrings("SELECT name FROM contest_contestants WHERE world=?", world);
+	}
+
+	public IWorld getWorldOf(IPlayer player)
+	{
+		return database.queryWorld("SELECT world FROM contest_contestants WHERE name=?", player.getName());
 	}
 
 	public boolean setWorld(String name, String world)
