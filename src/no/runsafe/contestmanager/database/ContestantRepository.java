@@ -51,6 +51,6 @@ public class ContestantRepository extends Repository
 				"PRIMARY KEY(`name`)" +
 				")"
 		);
-		return null;
+		return schema;
 	}
 }
