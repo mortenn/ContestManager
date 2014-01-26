@@ -1,10 +1,8 @@
 name: ContestManager
 main: no.runsafe.contestmanager.ContestManager
-version: 1.0.@BUILD@
-authors: []
-depend: []
+version: 1.0.0
+author: moretnn
 description:
 commands:
-  something:
-    description:
-    aliases: []
+  contest:
+    description: Contest management commands
