@@ -1,6 +1,7 @@
 package no.runsafe.contestmanager.event;
 
 import no.runsafe.contestmanager.database.ContestantRepository;
+import no.runsafe.framework.api.IScheduler;
 import no.runsafe.framework.api.IWorld;
 import no.runsafe.framework.api.block.IBlock;
 import no.runsafe.framework.api.event.player.IPlayerJoinEvent;
@@ -13,29 +14,50 @@ import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 
 public class PlayerEvents implements IPlayerJoinEvent, IPlayerTeleportEvent, IPlayerRightClick
 {
-	public PlayerEvents(ContestantRepository contestants)
+	public PlayerEvents(ContestantRepository contestants, IScheduler scheduler)
 	{
 		this.contestants = contestants;
+		this.scheduler = scheduler;
 	}
 
 	@Override
 	public void OnPlayerJoinEvent(RunsafePlayerJoinEvent event)
 	{
-		IPlayer player = event.getPlayer();
+		final IPlayer player = event.getPlayer();
 		if (!isMemberOfWorld(player, player.getWorld()))
 		{
-			IWorld entry = contestants.getWorldOf(player);
+			final IWorld entry = contestants.getWorldOf(player);
 			if (entry == null)
-				player.performCommand("/warp lobby");
+				scheduler.startSyncTask(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						player.performCommand("warp lobby");
+					}
+				},
+					0
+				);
 			else
-				player.performCommand("/mvtp " + entry.getName());
+				scheduler.startSyncTask(
+					new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							player.performCommand("mvtp " + entry.getName());
+
+						}
+					},
+					0
+				);
 		}
 	}
 
 	@Override
 	public boolean OnPlayerRightClick(IPlayer player, RunsafeMeta usingItem, IBlock targetBlock)
 	{
-		return isMemberOfWorld(player, targetBlock.getWorld());
+		return targetBlock == null || isMemberOfWorld(player, targetBlock.getWorld());
 	}
 
 	@Override
@@ -62,5 +84,5 @@ public class PlayerEvents implements IPlayerJoinEvent, IPlayerTeleportEvent, IPl
 	}
 
 	private final ContestantRepository contestants;
-
+	private final IScheduler scheduler;
 }
